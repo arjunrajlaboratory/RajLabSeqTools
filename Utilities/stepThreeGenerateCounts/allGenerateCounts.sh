@@ -1,0 +1,44 @@
+#!/bin/bash
+# run from within "repo" directory
+
+EXPERIMENT=$1
+codeHomeDir=$2
+ALIGNMENT_TOOL_NAME=star
+
+
+allSamplePaths=( ${EXPERIMENT}/analyzed/* )
+thisSampleNumber=$((LSB_JOBINDEX-1))
+thisSamplePath=${allSamplePaths[$thisSampleNumber]}
+sampleID=`basename "$thisSamplePath"`
+
+
+# This section takes the sam files and converts them to sorted bam.
+echo "Starting ..."
+fullCmd="$codeHomeDir/rajlabseqtools/Utilities/stepThreeGenerateCounts/samToSortedBam.sh \
+    $EXPERIMENT $sampleID star"
+echo "$fullCmd"
+eval "$fullCmd"
+echo "Done ..."
+
+
+# This runs the bamutils portion of the process
+echo "Starting ..."
+fullCmd="$codeHomeDir/rajlabseqtools/Utilities/stepThreeGenerateCounts/keepSTARUniquelyMappedBam.sh \
+    $EXPERIMENT $sampleID star"
+echo "$fullCmd"
+eval "$fullCmd"
+echo "Done ..."
+
+
+# This is everything in HTseq array steps
+echo "... Preparing Sam for HTSeq"
+fullCmd="$codeHomeDir/rajlabseqtools/Utilities/stepThreeGenerateCounts/prepareSamForHTSeq.sh $EXPERIMENT $sampleID $ALIGNMENT_TOOL_NAME"
+eval "$fullCmd"
+
+echo "... running HTSeq"
+fullCmd="$codeHomeDir/rajlabseqtools/Utilities/stepThreeGenerateCounts/runHTSeq.sh $EXPERIMENT $sampleID"
+eval "$fullCmd"
+
+echo "... removing temporary Sams/bams prepared for HTSeq"
+fullCmd="$codeHomeDir/rajlabseqtools/Utilities/stepThreeGenerateCounts/teardownSamForHTSeq.sh $EXPERIMENT $sampleID"
+eval "$fullCmd"
