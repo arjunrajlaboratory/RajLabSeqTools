@@ -10,6 +10,11 @@ for dirname in $ZIPFIELDIRECTORY/* ; do
     INPUT=`ls *`
     SAMPLE=${INPUT%%_*}
 
+    if [ ! -d $OUTFASTADIRECTORY/ ]; then
+        mkdir $OUTFASTADIRECTORY/
+    fi
+
+
     if [ ! -d $OUTFASTADIRECTORY/raw ]; then
         mkdir $OUTFASTADIRECTORY/raw
     fi
