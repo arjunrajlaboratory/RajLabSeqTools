@@ -17,7 +17,7 @@ for fileName in $EXPERIMENT/raw/* ; do
     echo "Working on sample $CURRENTSAMPLENUMBER of experiment $CURRENTEXPNUMBER"
     sampleID=`basename "$fileName"`
 
-    fullCmd="$codeHomeDir/rajlabseqtools/Utilities/stepTwoSTAR/runStar.sh $EXPERIMENT $sampleID"
+    fullCmd="$codeHomeDir/rajlabseqtools/Utilities/stepTwoStar/runStar.sh $EXPERIMENT $sampleID"
     echo "$fullCmd"
     eval "$fullCmd"
     echo ""
@@ -31,7 +31,7 @@ echo "Done with all experiments"
 
 
 echo "Renaming SAM files to match sample names"
-fullCmd2="$codeHomeDir/rajlabseqtools/Utilities/stepTwoSTAR/makeSamRenamingLinks.sh"
+fullCmd2="$codeHomeDir/rajlabseqtools/Utilities/stepTwoStar/makeSamRenamingLinks.sh"
 echo "$fullCmd2"
 eval "$fullCmd2"
 echo "done renaming"
