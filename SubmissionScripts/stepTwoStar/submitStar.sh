@@ -1,6 +1,6 @@
 #!/bin/bash
 # run from within repo
 
-userName="shaffers"
+projectName="CancerSeq"
 
-bsub -n 4 -q max_mem64 < /home/$userName/rajlabseqtools/SubmissionScripts/stepTwoStar/defineStarVariables.sh
+bsub -n 4 -q max_mem64 < /project/arjunrajlab/$projectName/repo/SubmissionScripts/stepTwoStar/defineStarVariables.sh
