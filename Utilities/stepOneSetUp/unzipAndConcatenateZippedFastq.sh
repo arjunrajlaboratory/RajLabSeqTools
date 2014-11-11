@@ -7,7 +7,7 @@ OUTFASTADIRECTORY=$2
 for dirname in $ZIPFIELDIRECTORY/* ; do
     cd $dirname
 
-    INPUT=`ls *001_R1*`
+    INPUT=`ls *`
     SAMPLE=${INPUT%%_*}
 
     if [ ! -d $OUTFASTADIRECTORY/raw ]; then
@@ -23,10 +23,10 @@ for dirname in $ZIPFIELDIRECTORY/* ; do
     done
 
     FASTQR1=${SAMPLE}_R1.fastq
-    FASTQR2=${SAMPLE}_R2.fastq
+#    FASTQR2=${SAMPLE}_R2.fastq
 
     cat *R1*fastq > $OUTFASTADIRECTORY/raw/$SAMPLE/$FASTQR1
-    cat *R2*fastq > $OUTFASTADIRECTORY/raw/$SAMPLE/$FASTQR2
+#    cat *R2*fastq > $OUTFASTADIRECTORY/raw/$SAMPLE/$FASTQR2
 
 done
 
