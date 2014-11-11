@@ -2,36 +2,34 @@
 
 ZIPFILEDIRECTORY=$1
 
-OUTFASTADIRECTORY=$2
+OUTFASTQDIRECTORY=$2
 
-for dirname in $ZIPFIELDIRECTORY/* ; do
+for dirname in $ZIPFILEDIRECTORY/* ; do
     cd $dirname
 
     INPUT=`ls *`
-    SAMPLE=${INPUT%%_*}
+    SAMPLE=${INPUT%%_*}  # Cuts filename string after first '_'
 
-    if [ ! -d $OUTFASTADIRECTORY/ ]; then
-        mkdir $OUTFASTADIRECTORY/
+    if [ ! -d $OUTFASTQDIRECTORY/raw ]; then
+        mkdir $OUTFASTQDIRECTORY/raw
     fi
 
-
-    if [ ! -d $OUTFASTADIRECTORY/raw ]; then
-        mkdir $OUTFASTADIRECTORY/raw
+    if [ ! -d $OUTFASTQDIRECTORY/raw/$SAMPLE ]; then
+        mkdir $OUTFASTQDIRECTORY/raw/$SAMPLE
     fi
 
-    if [ ! -d $OUTFASTADIRECTORY/raw/$SAMPLE ]; then
-        mkdir $OUTFASTADIRECTORY/raw/$SAMPLE
-    fi
-
-    for i in *.gz; do
-        gunzip -c $i > ${i%.*}
-    done
-
-    FASTQR1=${SAMPLE}_R1.fastq
+    FASTQR1=${SAMPLE}.fastq
 #    FASTQR2=${SAMPLE}_R2.fastq
 
-    cat *R1*fastq > $OUTFASTADIRECTORY/raw/$SAMPLE/$FASTQR1
-#    cat *R2*fastq > $OUTFASTADIRECTORY/raw/$SAMPLE/$FASTQR2
+    if [ ! -e $OUTFASTQDIRECTORY/raw/$SAMPLE/$FASTQR1 ]; then
+        echo Working on $SAMPLE
+        for i in *.gz; do
+            gunzip -c $i > ${i%.*}
+        done
 
+
+        cat *fastq > $OUTFASTQDIRECTORY/raw/$SAMPLE/$FASTQR1
+    #    cat *R2*fastq > $OUTFASTQDIRECTORY/raw/$SAMPLE/$FASTQR2
+    fi
 done
 
