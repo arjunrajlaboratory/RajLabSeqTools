@@ -31,7 +31,7 @@ echo "Done with all experiments"
 
 
 echo "Renaming SAM files to match sample names"
-fullCmd2="$codeHomeDir/rajlabseqtools/Utilities/stepTwoStar/makeSamRenamingLinks.sh"
+fullCmd2="$codeHomeDir/rajlabseqtools/Utilities/stepTwoStar/makeSamRenamingLinks.sh $EXPERIMENT"
 echo "$fullCmd2"
 eval "$fullCmd2"
 echo "done renaming"
