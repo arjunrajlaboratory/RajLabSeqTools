@@ -3,6 +3,7 @@
 
 EXPERIMENT=$1
 codeHomeDir=$2
+PROJECT=$3
 ALIGNMENT_TOOL_NAME=star
 
 
@@ -42,3 +43,6 @@ eval "$fullCmd"
 echo "... removing temporary Sams/bams prepared for HTSeq"
 fullCmd="$codeHomeDir/rajlabseqtools/Utilities/stepThreeGenerateCounts/teardownSamForHTSeq.sh $EXPERIMENT $sampleID"
 eval "$fullCmd"
+
+echo "...generating melted data"
+fullCmd="$codeHomeDir/rajlabseqtools/Utilities/stepThreeGenerateCounts/meltHTSeqData.pl $EXPERIMENT/analyzed/*/htseq/*.htseq.stdout > /project/arjunrajlab/$PROJECT/meltedData.tsv"
