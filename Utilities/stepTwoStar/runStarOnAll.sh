@@ -11,13 +11,15 @@ EXPERIMENT=$1
 
 codeHomeDir=$2
 
+STARFLAGS=$3
+
 CURRENTEXPNUMBER=1
 CURRENTSAMPLENUMBER=1
 for fileName in $EXPERIMENT/raw/* ; do
     echo "Working on sample $CURRENTSAMPLENUMBER of experiment $CURRENTEXPNUMBER"
     sampleID=`basename "$fileName"`
 
-    fullCmd="$codeHomeDir/rajlabseqtools/Utilities/stepTwoStar/runStar.sh $EXPERIMENT $sampleID"
+    fullCmd="$codeHomeDir/rajlabseqtools/Utilities/stepTwoStar/runStar.sh $EXPERIMENT $sampleID $STARFLAGS"
     echo "$fullCmd"
     eval "$fullCmd"
     echo ""

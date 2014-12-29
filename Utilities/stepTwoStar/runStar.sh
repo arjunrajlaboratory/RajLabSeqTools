@@ -3,6 +3,7 @@
 
 EXPERIMENT=$1
 SAMPLEID=$2
+STARFLAGS=$3
 
 toolNAME=star
 
@@ -41,7 +42,8 @@ cmdToRun="$starNAME \
 	--readFilesIn $inputFile \
 	--genomeLoad LoadAndRemove \
 	--outFileNamePrefix $destinationDir \
-	--runThreadN $numCPU"
+	--runThreadN $numCPU \
+	$STARFLAGS"
 
 JOURNAL=$EXPERIMENT/analyzed/$SAMPLEID/log/$(date +%Y-%m-%d_%H-%M).$toolNAME.log
 echo "Starting..." >> $JOURNAL
