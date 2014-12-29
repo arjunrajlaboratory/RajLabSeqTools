@@ -8,7 +8,7 @@ for dirname in $ZIPFIELDIRECTORY/* ; do
     cd $dirname
 
     INPUT=`ls *001_R1*`
-    SAMPLE=${INPUT%%_*}
+    SAMPLE=${INPUT%%_*}  # Cuts filename string after first '_'
 
     if [ ! -d $OUTFASTADIRECTORY/raw ]; then
         mkdir $OUTFASTADIRECTORY/raw
