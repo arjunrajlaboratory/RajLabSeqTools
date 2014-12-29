@@ -11,7 +11,7 @@ EXPERIMENT=$1
 
 codeHomeDir=$2
 
-STARFLAGS=$3
+STARFLAGS=${@:3} # pass all arguments after the first two
 
 CURRENTEXPNUMBER=1
 CURRENTSAMPLENUMBER=1

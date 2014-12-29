@@ -3,7 +3,7 @@
 
 EXPERIMENT=$1
 SAMPLEID=$2
-STARFLAGS=$3
+STARFLAGS=${@:3} # pass all arguments after the first two
 
 toolNAME=star
 
