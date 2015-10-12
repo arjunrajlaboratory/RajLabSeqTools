@@ -6,5 +6,5 @@
 
 # /home/shaffers/rajlabseqtools/Utilities/stepOneSetUp/unzipAndConcatenateZippedFastq.sh /# project/arjunrajlab/NGSC_data/WM983b_LdB_run2/WM983bLdB_2-17191174 /project/arjunrajlab/# CancerSeq/repo/wm983bLdB_run2
 
-/Users/sydneyshaffer/rajlabseqtools/ATACseqProcessing/ATACutilities/stepOneSetUp/unzipAndConcatenateZippedFastq.sh /Volumes/Melanoma2/ATACseq/EGFRsortTestData /Volumes/Melanoma2/ATACseq/ProcessedDataEGFRsort
+/Users/sydneyshaffer/rajlabseqtools/ATACseqProcessing/ATACutilities/stepOneSetUp/unzipAndConcatenateZippedFastq.sh /Volumes/Melanoma2/ATACseq/EGFR-sorting-23951933 /Volumes/Melanoma2/ATACseq/ProcessedDataEGFRsort
 
