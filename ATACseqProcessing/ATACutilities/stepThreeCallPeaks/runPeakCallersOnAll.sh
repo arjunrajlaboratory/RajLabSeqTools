@@ -4,6 +4,8 @@
 
 # run from within repo 
 
+# runs MACS2 on each of the files...
+
 EXPERIMENT=$1
 
 codeHomeDir=$2
@@ -15,8 +17,8 @@ for fileName in $EXPERIMENT/raw/* ; do
     echo "Working on sample $CURRENTSAMPLENUMBER of experiment $CURRENTEXPNUMBER"
     sampleID=`basename "$fileName"`
 
-	# this runs the samtools functions
-    fullCmd="$codeHomeDir/rajlabseqtools/ATACseqProcessing/ATACutilities/stepThreeCallPeaks/samToSortedBam.sh $EXPERIMENT $sampleID $STARFLAGS"
+	# 
+    fullCmd="$codeHomeDir/rajlabseqtools/ATACseqProcessing/ATACutilities/stepThreeCallPeaks/runMACS2.sh $EXPERIMENT $sampleID $STARFLAGS"
     echo "$fullCmd"
     eval "$fullCmd"
     echo ""
@@ -26,11 +28,3 @@ done
 echo "Done with experiment $EXPERIMENT"
 CURRENTEXPNUMBER=$((CURRENTEXPNUMBER+1))
 echo "Done with all experiments"
-
-
-
-#echo "Renaming SAM files to match sample names"
-#fullCmd2="$codeHomeDir/rajlabseqtools/ATACseqProcessing/Utilities/stepTwoStar/makeSamRenamingLinks.sh $EXPERIMENT"
-#echo "$fullCmd2"
-#eval "$fullCmd2"
-#echo "done renaming"

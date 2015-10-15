@@ -39,8 +39,7 @@ COMMAND_DUPS="samtools rmdup $EXPERIMENT/analyzed/$SAMPLEID/$ALIGNMENT_TOOL_NAME
 
 # make index file
 INDEXCOMMAND="samtools index \
-    $EXPERIMENT/analyzed/$SAMPLEID/$ALIGNMENT_TOOL_NAME/$SAMPLEID.sorted.mapped.rmDups.bam \
-    $EXPERIMENT/analyzed/$SAMPLEID/$ALIGNMENT_TOOL_NAME/$SAMPLEID.sorted.mapped.rmDups.bai"
+    $EXPERIMENT/analyzed/$SAMPLEID/$ALIGNMENT_TOOL_NAME/$SAMPLEID.sorted.mapped.rmDups.bam"
     
 # Remove chromsome Y and mito reads
 COMMAND_RM="samtools view -b \
