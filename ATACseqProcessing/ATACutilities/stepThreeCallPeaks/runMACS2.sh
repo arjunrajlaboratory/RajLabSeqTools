@@ -20,7 +20,8 @@ MACS2dir="/Users/sydneyshaffer/ATACseqTools/MACS-master/MACS2"
 # runs MACS2
 COMMAND="macs2 callpeak -t \
 	$EXPERIMENT/analyzed/$SAMPLEID/$ALIGNMENT_TOOL_NAME/$SAMPLEID.sorted.mapped.rmDups.rmMandY.bam \
-	-n $SAMPLEID --outdir $EXPERIMENT/analyzed/$SAMPLEID/MACS2/ -f BAM -g hs --nomodel --nolambda --keep-dup all --call-summits"
+	-n $SAMPLEID --outdir $EXPERIMENT/analyzed/$SAMPLEID/MACS2/ -f BAM \
+	-g hs --nomodel -B --SPMR --nolambda --keep-dup all --call-summits"
     
 echo "Starting..." >> $JOURNAL
 
