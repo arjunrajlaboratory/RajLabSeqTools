@@ -13,12 +13,14 @@ codeHomeDir=$2
 
 CURRENTEXPNUMBER=1
 CURRENTSAMPLENUMBER=1
-for fileName in $EXPERIMENT/raw/* ; do
+for fileName in $EXPERIMENT/analyzed/* ; do
     echo "Working on sample $CURRENTSAMPLENUMBER of experiment $CURRENTEXPNUMBER"
+    echo "$sampleID"
+    echo "$fileName"
     sampleID=`basename "$fileName"`
 
 	# 
-    fullCmd="$codeHomeDir/rajlabseqtools/ATACseqProcessing/ATACutilities/stepThreeCallPeaks/runHOMER.sh $EXPERIMENT $sampleID $STARFLAGS"
+    fullCmd="$codeHomeDir/rajlabseqtools/ATACseqProcessing/ATACutilities/stepFourHOMERpeaks/runHOMER.sh $EXPERIMENT $sampleID"
     echo "$fullCmd"
     eval "$fullCmd"
     echo ""

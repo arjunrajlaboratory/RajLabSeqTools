@@ -6,20 +6,22 @@ SAMPLEID=$2
 
 ALIGNMENT_TOOL_NAME=bowtie2
 
-COMMANDNAME=macs2
+COMMANDNAME=HOMER
 
 if [ ! -d $EXPERIMENT/analyzed/$SAMPLEID/HOMER ]; then
     mkdir $EXPERIMENT/analyzed/$SAMPLEID/HOMER
 fi
 
-JOURNAL=$EXPERIMENT/analyzed/$SAMPLEID/log/$(date +%Y-%m-%d_%H-%M).$COMMANDNAME.log
+if [ ! -d $EXPERIMENT/analyzed/$SAMPLEID/log ]; then
+    mkdir $EXPERIMENT/analyzed/$SAMPLEID/log
+fi
 
-MACS2dir="/Users/sydneyshaffer/ATACseqTools/MACS-master/MACS2"
+JOURNAL=$EXPERIMENT/analyzed/$SAMPLEID/log/$(date +%Y-%m-%d_%H-%M).$COMMANDNAME.log
 
 
 # runs HOMER
 COMMAND1="makeTagDirectory $EXPERIMENT/analyzed/$SAMPLEID/HOMER \
-	$EXPERIMENT/analyzed/$SAMPLEID/$ALIGNMENT_TOOL_NAME/$SAMPLEID.sorted.mapped.rmDups.rmMandY.bam"
+	$EXPERIMENT/analyzed/$SAMPLEID/$SAMPLEID.sorted.mapped.rmDups.rmMandY.bam"
 
 COMMAND2="makeUCSCfile $EXPERIMENT/analyzed/$SAMPLEID/HOMER -o auto"
 
@@ -27,19 +29,19 @@ COMMAND2="makeUCSCfile $EXPERIMENT/analyzed/$SAMPLEID/HOMER -o auto"
 COMMAND3="findPeaks $EXPERIMENT/analyzed/$SAMPLEID/HOMER -style dnase -o auto \
 	> $EXPERIMENT/analyzed/$SAMPLEID/HOMER/peaks.txt"
 	
-COMMAND4="pos2bed findPeaks $EXPERIMENT/analyzed/$SAMPLEID/HOMER/peaks.txt \
-	> findPeaks $EXPERIMENT/analyzed/$SAMPLEID/HOMER/peaks.bed"
+COMMAND4="pos2bed.pl $EXPERIMENT/analyzed/$SAMPLEID/HOMER/peaks.txt \
+	> $EXPERIMENT/analyzed/$SAMPLEID/HOMER/peaks.bed"
 
     
 echo "Starting..." >> $JOURNAL
 
 date >> $JOURNAL
-echo $COMMAND1 >> $JOURNAL
-eval $COMMAND1
-
-echo $COMMAND2 >> $JOURNAL
-eval $COMMAND2
-
+#echo $COMMAND1 >> $JOURNAL
+#eval $COMMAND1
+ 
+#echo $COMMAND2 >> $JOURNAL
+#eval $COMMAND2
+ 
 echo $COMMAND3 >> $JOURNAL
 eval $COMMAND3
 
