@@ -18,7 +18,7 @@ if [ ! -d $EXPERIMENT/analyzed/$SAMPLEID/htseq ]; then
 fi
 
 inputFile="$EXPERIMENT/analyzed/$SAMPLEID/htseq/$SAMPLEID.nameSorted.mateFixed.sam"
-gtfFile="resources/htseq/hg19/hg19.gtf"
+gtfFile="/project/arjunrajlab/resources/htseq/hg19/hg19.gtf"
 
 countsOutFile="$EXPERIMENT/analyzed/$SAMPLEID/htseq/$SAMPLEID.htseq.stdout"
 logOutFile="$EXPERIMENT/analyzed/$SAMPLEID/htseq/$SAMPLEID.htseq.stderr"
