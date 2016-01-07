@@ -45,4 +45,4 @@ fullCmd="$codeHomeDir/rajlabseqtools/Utilities/stepThreeGenerateCounts/teardownS
 eval "$fullCmd"
 
 echo "...generating melted data"
-fullCmd="$codeHomeDir/rajlabseqtools/Utilities/stepThreeGenerateCounts/meltHTSeqData.pl $EXPERIMENT/analyzed/*/htseq/*.htseq.stdout > /project/arjunrajlab/$PROJECT/meltedData.tsv"
+fullCmd="$codeHomeDir/rajlabseqtools/Utilities/stepThreeGenerateCounts/meltHTSeqData.pl $EXPERIMENT/analyzed/*/htseq/*.htseq.stdout > /project/arjunrajlab/$PROJECT/repo/$EXPERIMENT/meltedData.tsv"
