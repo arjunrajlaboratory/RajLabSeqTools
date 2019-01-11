@@ -25,23 +25,16 @@ if [ ! -d $destinationDir ]; then
     mkdir "$destinationDir"
 fi
 
-inputFile="$EXPERIMENT/raw/$SAMPLEID/$SAMPLEID.fastq"
-if [ ! -e $inputFile ]; then
-    gunzip -c "$inputFile.gz" > "$inputFile"
-fi
+inputFile="$EXPERIMENT/raw/$SAMPLEID/$SAMPLEID.fastq.gz"
 
-# obtained by looking at 'module show STAR'
-starNAME="/opt/software/STAR/STAR_2.3.0e/STAR"
-
-# obtained by looking at 'module show STAR-hg19'
 genomeDir="/home/apps/STAR/indexes/hg19"
 
 numCPU=4
-cmdToRun="$starNAME \
+cmdToRun="STAR \
 	--genomeDir $genomeDir \
 	--readFilesIn $inputFile \
 	--genomeLoad LoadAndRemove \
-	--outFileNamePrefix $destinationDir \
+	--outFileNamePrefix $destinationDir/$SAMPLEID. \
 	--runThreadN $numCPU \
 	$STARFLAGS"
 

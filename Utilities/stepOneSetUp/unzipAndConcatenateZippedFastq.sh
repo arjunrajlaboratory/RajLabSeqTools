@@ -30,6 +30,11 @@ for dirname in $ZIPFILEDIRECTORY/* ; do
 
         cat *fastq > $OUTFASTQDIRECTORY/raw/$SAMPLE/$FASTQR1
     #    cat *R2*fastq > $OUTFASTQDIRECTORY/raw/$SAMPLE/$FASTQR2
+    
     fi
+    
+    # compress fastq after concatenation, since STAR can read compressed FASTQ files.
+    # submit this final compression task to cluster since compression takes a while
+    bsub gzip $OUTFASTQDIRECTORY/raw/$SAMPLE/$FASTQR1
 done
 

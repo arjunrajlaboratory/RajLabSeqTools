@@ -1,6 +1,9 @@
 #!/bin/bash
-# run from within repo
+# run from within repo 
 
-projectName="CancerSeq"
+cmdToRun="$codeHomeDir/rajlabseqtools/Utilities/stepTwoStar/runStarOnAll.sh $EXPERIMENT $codeHomeDir $STARFLAGS"
 
-bsub -n 4 -q max_mem64 < /project/arjunrajlab/$projectName/repo/SubmissionScripts/stepTwoStar/defineStarVariables.sh
+echo "$cmdToRun"
+eval "$cmdToRun"
+echo "done submitting star jobs, wait until all jobs are complete before proceeding to the next step. use the bjobs command to monitor their progress."
+

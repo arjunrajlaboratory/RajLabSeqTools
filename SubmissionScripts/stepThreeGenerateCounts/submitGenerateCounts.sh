@@ -1,6 +1,9 @@
 #!
 # run from within repo
-projectName="CancerSeq"
 
-scriptFile=/project/arjunrajlab/$projectName/repo/SubmissionScripts/stepThreeGenerateCounts/defineVariablesGenerateCounts.sh
-bsub -J "generateCounts[1-24]" -o out.%I -e err.%I < $scriptFile
+cmdToRun="$codeHomeDir/rajlabseqtools/Utilities/stepThreeGenerateCounts/allGenerateCounts.sh $EXPERIMENT $codeHomeDir $PROJECT"
+
+JOB_ARRAY_PARAMETER_TEMPLATE="generateCounts[1-tk]"
+
+#The expression within ${} below replaces "tk" with the correct number of samples (defined in the setEnvironmentVariables.sh script)
+bsub -J ${JOB_ARRAY_PARAMETER_TEMPLATE/tk/$N_SAMPLES} -o out.%I -e err.%I $cmdToRun
