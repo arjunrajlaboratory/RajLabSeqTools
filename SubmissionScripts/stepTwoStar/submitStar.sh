@@ -1,7 +1,7 @@
 #!/bin/bash
 # run from within repo 
 
-cmdToRun="$codeHomeDir/rajlabseqtools/Utilities/stepTwoStar/runStarOnAll.sh $EXPERIMENT $codeHomeDir $STARFLAGS"
+cmdToRun="$codeHomeDir/rajlabseqtools/Utilities/stepTwoStar/runStarOnAll.sh $EXPERIMENT $codeHomeDir $PAIRED_OR_SINGLE_END_FRAGMENTS $STARFLAGS"
 
 echo "$cmdToRun"
 eval "$cmdToRun"

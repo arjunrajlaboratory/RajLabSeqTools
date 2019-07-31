@@ -20,12 +20,20 @@ for fileName in $EXPERIMENT/raw/* ; do
 	    mkdir "$destinationDir"
 	fi
 
-	inputFile="$EXPERIMENT/raw/$SAMPLEID/$SAMPLEID.fastq.gz"
+	inputFileR1="$EXPERIMENT/raw/$SAMPLEID/${SAMPLEID}_R1.fastq.gz"
+    inputFileR2="$EXPERIMENT/raw/$SAMPLEID/${SAMPLEID}_R2.fastq.gz"
 
-    fullCmd="fastqc -o $destinationDir $inputFile"
+    fullCmd="fastqc -o $destinationDir $inputFileR1"
     echo "$fullCmd"
     bsub -J "$EXPERIMENT.FastQC.$CURRENTSAMPLENUMBER" -o "$EXPERIMENT/analyzed/$SAMPLEID/log/$(date +%Y-%m-%d_%H-%M).FastQC.bsub.stdout" -e "$EXPERIMENT/analyzed/$SAMPLEID/log/$(date +%Y-%m-%d_%H-%M).FastQC.bsub.stderr" "$fullCmd"
     echo ""
+
+    if [ $PAIRED_OR_SINGLE_END_FRAGMENTS = "paired" ]; then
+        fullCmd="fastqc -o $destinationDir $inputFileR2"
+        echo "$fullCmd"
+        bsub -J "$EXPERIMENT.FastQC.$CURRENTSAMPLENUMBER" -o "$EXPERIMENT/analyzed/$SAMPLEID/log/$(date +%Y-%m-%d_%H-%M).FastQC.bsub.stdout" -e "$EXPERIMENT/analyzed/$SAMPLEID/log/$(date +%Y-%m-%d_%H-%M).FastQC.bsub.stderr" "$fullCmd"
+        echo ""
+    fi
 
     CURRENTSAMPLENUMBER=$((CURRENTSAMPLENUMBER+1))
 done

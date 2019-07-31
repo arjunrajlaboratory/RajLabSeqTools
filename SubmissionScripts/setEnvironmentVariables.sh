@@ -19,6 +19,7 @@ PROJECT="HistoryDependence"
 EXPERIMENT="HD3_RNA-Seq"
 RAWDATA_DIRECTORY="/home/esanford/data/HD3_RNA-Seq/data_from_illumina"
 N_SAMPLES=11
+PAIRED_OR_SINGLE_END_FRAGMENTS="single"  # this variable must be "single" or "paired". change to "paired" if your reads... are paired.
 codeHomeDir=~
 
 

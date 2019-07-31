@@ -3,7 +3,8 @@
 
 EXPERIMENT=$1
 SAMPLEID=$2
-STARFLAGS=${@:3} # pass all arguments after the first two
+PAIRED_OR_SINGLE_END_FRAGMENTS=$3
+STARFLAGS=${@:4} # pass all arguments after the first two
 
 toolNAME=star
 
@@ -25,18 +26,31 @@ if [ ! -d $destinationDir ]; then
     mkdir "$destinationDir"
 fi
 
-inputFile="$EXPERIMENT/raw/$SAMPLEID/$SAMPLEID.fastq.gz"
+inputFileR1="$EXPERIMENT/raw/$SAMPLEID/${SAMPLEID}_R1.fastq.gz"
+inputFileR2="$EXPERIMENT/raw/$SAMPLEID/${SAMPLEID}_R2.fastq.gz"
 
 genomeDir="/home/apps/STAR/indexes/hg19"
 
 numCPU=4
-cmdToRun="STAR \
-	--genomeDir $genomeDir \
-	--readFilesIn $inputFile \
-	--genomeLoad LoadAndRemove \
-	--outFileNamePrefix $destinationDir/$SAMPLEID. \
-	--runThreadN $numCPU \
-	$STARFLAGS"
+if [ $PAIRED_OR_SINGLE_END_FRAGMENTS = "single" ]; then
+	cmdToRun="STAR \
+		--genomeDir $genomeDir \
+		--readFilesIn $inputFileR1 \
+		--genomeLoad LoadAndRemove \
+		--outFileNamePrefix $destinationDir/$SAMPLEID. \
+		--runThreadN $numCPU \
+		$STARFLAGS"
+fi
+
+if [ $PAIRED_OR_SINGLE_END_FRAGMENTS = "paired" ]; then
+	cmdToRun="STAR \
+		--genomeDir $genomeDir \
+		--readFilesIn $inputFileR1 $inputFileR2 \
+		--genomeLoad LoadAndRemove \
+		--outFileNamePrefix $destinationDir/$SAMPLEID. \
+		--runThreadN $numCPU \
+		$STARFLAGS"
+fi
 
 JOURNAL=$EXPERIMENT/analyzed/$SAMPLEID/log/$(date +%Y-%m-%d_%H-%M).$toolNAME.log
 echo "Starting..." >> $JOURNAL
