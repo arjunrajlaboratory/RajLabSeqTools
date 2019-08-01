@@ -6,10 +6,10 @@ library(here)
 
 ######### here beginneth user-defined parameters #########
 
-meltedDataInputFile   <- '/Users/emsanford/Downloads/meltedData.tsv'
-gtfFileUsedByPipeline <- '/Users/emsanford/Downloads/hg19.gtf'
-ENSGtoGeneSymbolTable <- here('geneSymbolConversionTables', 'hg19_EnsgHgncSymbolMapping.tsv')
-outputFile            <- '/Users/emsanford/Downloads/meltedDataWithNormalizedDataColumns.tsv'
+meltedDataInputFile   <- '/Users/emsanford/Dropbox (RajLab)/Shared_Eric/Signal_Integration/Analysis_SI2-SI4/extractedData/meltedData.tsv'
+gtfFileUsedByPipeline <- '/Users/emsanford/Dropbox (RajLab)/Shared_Eric/Signal_Integration/Analysis_SI2-SI4/refs/hg19.gtf'
+ENSGtoGeneSymbolTable <- '/Users/emsanford/Dropbox (Personal)/Eric/Penn/raj_lab/code/rajlabseqtools/default/LocalComputerScripts/geneSymbolConversionTables/hg19_EnsgHgncSymbolMapping.tsv'
+outputFile            <- '/Users/emsanford/Dropbox (RajLab)/Shared_Eric/Signal_Integration/Analysis_SI2-SI4/extractedData/si2-si4_RNA-seq-pipeline-output.tsv'
 
 ######### here endeth user-defined parameters ############
 
@@ -34,10 +34,10 @@ htseq.table.withTPM <- htseq.table.withRPKM %>%
 # now add the gene symbol to the final table and write the output file
 HGNC.symbol.table <- read_tsv(ENSGtoGeneSymbolTable, col_names = T)
 HGNC.symbol.table <- HGNC.symbol.table %>% mutate(gene_id = ensg) %>% dplyr::select(-ensg)
-htseq.table.with.HGNCsymbol <- left_join(htseq.table.withTPM, HGNC.symbol.table, by = 'gene_id')
-htseq.table.final <- htseq.table.with.HGNCsymbol %>% dplyr::select(-length, -totalMappedReads)
+htseq.table.with.HGNCsymbol <- plyr::join(data.frame(htseq.table.withTPM), data.frame(HGNC.symbol.table), by = 'gene_id', type="left", match="first")  #uses plyr join on a data frame instead of dplyr left_join on a tibble due to first match option
+htseq.table.almostfinal <- as_tibble(htseq.table.with.HGNCsymbol)
+htseq.table.final <- htseq.table.almostfinal %>% dplyr::select(-length, -totalMappedReads)
 write_tsv(htseq.table.final, outputFile, col_names = T)
-
 
 
 ####### if you need to make a new ENSGtoGeneSymbolTable, uncomment, edit, and run this block of code ###############
