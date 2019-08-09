@@ -55,6 +55,6 @@ write_tsv(htseq.table.final, outputFile, col_names = T)
 #                          values = vectorOfENSG_IDs_to_find_HGNC_symbols_for, 
 #                          mart = ensembl)
 # 
-# hgnc.name.tibble <- tibble(ensg = hgnc.name.table$ensembl_gene_id, hgnc.symbol = hgnc.name.table$hgnc_symbol)
+# hgnc.name.tibble <- tibble(ensg = hgnc.name.table$ensembl_gene_id, hgnc_symbol = hgnc.name.table$hgnc_symbol)
 # write_tsv(hgnc.name.tibble, outputTableWithGeneNameSymbols, col_names = TRUE)
 ####################################################################################################################

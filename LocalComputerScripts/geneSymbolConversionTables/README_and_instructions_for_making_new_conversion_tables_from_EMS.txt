@@ -1,4 +1,4 @@
-These tables were made using the biomaRt package in R. To make a new one for a new reference genome, you can edit this block of R code:
+These tables were made using the biomaRt package in R, using the code below. The "hg19" table used the ENSG gene_ids from the hg19 gtf file used by the pipeline as of June 2019. The code below was run on June 18th, 2019 to create an internal database of Ensembl gene_id to HGNC gene_symbol IDs. The hg38 table was created on July 30th, 2019. To make a new one for a new reference genome, you can edit this block of R code: (note that this code is also in a comment block in the normalizeMeltedCountsAndAddGeneSymbol.R script)
 
 
 library(biomaRt)
@@ -15,5 +15,5 @@ hgnc.name.table <- getBM(attributes=c('ensembl_gene_id', 'hgnc_symbol'),
                          values = vectorOfENSG_IDs_to_find_HGNC_symbols_for, 
                          mart = ensembl)
 
-hgnc.name.tibble <- tibble(ensg = hgnc.name.table$ensembl_gene_id, hgnc.symbol = hgnc.name.table$hgnc_symbol)
+hgnc.name.tibble <- tibble(ensg = hgnc.name.table$ensembl_gene_id, hgnc_symbol = hgnc.name.table$hgnc_symbol)
 write_tsv(hgnc.name.tibble, outputTableWithGeneNameSymbols, col_names = TRUE)
