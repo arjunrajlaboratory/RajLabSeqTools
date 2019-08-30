@@ -34,8 +34,10 @@ Create a branch in case you make edits.
 
 Make sure you are in the directory with the pipeline.
 
-Place your raw FASTQ files in the data/ folder.
-	Ex: “ rsync -av /path/to/data/SRX5725609.fastq.gz data/ ”
+Place your raw FASTQ files in the data/ folder. Ex:
+
+ rsync -av /path/to/data/SRX5725609.fastq.gz data/ ”
+
 
 Make sure you have the following components of your reference:
 Reference FASTA
@@ -63,8 +65,10 @@ Any parameters you want to include
 *** and to the location of your STAR index directory and the GTF file.
 
 Once this is complete, if you are running on MAC OSX, the command “zcat” will not work. To work around this without editing the wrapper, make the following changes:
-“$ sed 's/.fastq.gz/.fastq/g' rules/align.smk > rules/align.smk ;“
-“$ sed 's/.fastq.gz/.fastq/g' rules/trim.smk > rules/trim.smk ;“
+
+	sed 's/.fastq.gz/.fastq/g' rules/align.smk > rules/align.smk ;
+
+	sed 's/.fastq.gz/.fastq/g' rules/trim.smk > rules/trim.smk ;
 
 This effectively removes the compression of all intermediate FASTQ files and bypasses the need to gunzip them.
 
@@ -73,17 +77,21 @@ If you are running on a Linux workstation, the above step is not necessary.
 You’re almost there! Now we run snakemake:
 
 Test that the configuration works with:
+
 	snakemake --use-conda -n
 
 If this work, then run the following command to run the script ($N is number of cores):
+
 	snakemake --use-conda --cores $N
 
 Once it’s done running you can create a report with the following command:
+
 	snakemake --report report.html
 
 If there is an error, the type will come up in red color and you can check the logs/ folder for the sample/step where an error was generated.
 
 The pipeline should produce two useful .html files, two .svg files, and two .pdf files:
+
  ./report.html (overview of basic properties of your data)
  qc/multiqc_report.html (more detailed overview of sequencing data, including number of intronic reads, splice reads, etc…)
 results/pca.svg (a figure of first two principal components of your samples based on gene expression)
