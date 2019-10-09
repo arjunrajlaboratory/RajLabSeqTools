@@ -3,6 +3,7 @@
 
 EXPERIMENT=$1
 SAMPLEID=$2
+gtfFile=$3
 
 commandNAME=runHTSeq
 
@@ -18,7 +19,6 @@ if [ ! -d $EXPERIMENT/analyzed/$SAMPLEID/htseq ]; then
 fi
 
 inputFile="$EXPERIMENT/analyzed/$SAMPLEID/htseq/$SAMPLEID.nameSorted.mateFixed.sam"
-gtfFile="/project/arjunrajlab/resources/htseq/hg19/hg19.gtf"
 
 countsOutFile="$EXPERIMENT/analyzed/$SAMPLEID/htseq/$SAMPLEID.htseq.stdout"
 logOutFile="$EXPERIMENT/analyzed/$SAMPLEID/htseq/$SAMPLEID.htseq.stderr"

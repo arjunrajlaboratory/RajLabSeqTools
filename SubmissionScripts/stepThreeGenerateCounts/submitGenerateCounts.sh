@@ -1,7 +1,7 @@
 #!
 # run from within repo
 
-cmdToRun="$codeHomeDir/rajlabseqtools/Utilities/stepThreeGenerateCounts/allGenerateCounts.sh $EXPERIMENT $codeHomeDir $PROJECT"
+cmdToRun="$codeHomeDir/rajlabseqtools/Utilities/stepThreeGenerateCounts/allGenerateCounts.sh $EXPERIMENT $codeHomeDir $PROJECT $gtfFile"
 
 JOB_ARRAY_PARAMETER_TEMPLATE="generateCounts[1-tk]"
 

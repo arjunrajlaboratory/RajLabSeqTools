@@ -4,6 +4,7 @@
 EXPERIMENT=$1
 codeHomeDir=$2
 PROJECT=$3
+gtfFile=$4
 ALIGNMENT_TOOL_NAME=star
 
 
@@ -37,7 +38,7 @@ fullCmd="$codeHomeDir/rajlabseqtools/Utilities/stepThreeGenerateCounts/prepareSa
 eval "$fullCmd"
 
 echo "... running HTSeq"
-fullCmd="$codeHomeDir/rajlabseqtools/Utilities/stepThreeGenerateCounts/runHTSeq.sh $EXPERIMENT $sampleID"
+fullCmd="$codeHomeDir/rajlabseqtools/Utilities/stepThreeGenerateCounts/runHTSeq.sh $EXPERIMENT $sampleID $gtfFile"
 eval "$fullCmd"
 
 echo "... removing temporary Sams/bams prepared for HTSeq"

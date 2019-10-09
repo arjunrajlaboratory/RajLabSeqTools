@@ -1,19 +1,27 @@
 library(tidyverse)
 library(GenomicFeatures)
 library(here)
+library(refGenome)
 # note: if you get errors from any of the above "library" lines, e.g. "there is no package called ‘here’, 
 #       enter the following command in the RStudio console: install.packages(<name_of_library_that_failed_to_load>)
 
 ######### here beginneth user-defined parameters #########
 
-meltedDataInputFile   <- '/Users/emsanford/Dropbox (RajLab)/Shared_Eric/Signal_Integration/Analysis_SI2-SI4/extractedData/meltedData.tsv'
-gtfFileUsedByPipeline <- '/Users/emsanford/Dropbox (RajLab)/Shared_Eric/Signal_Integration/Analysis_SI2-SI4/refs/hg19.gtf'
-ENSGtoGeneSymbolTable <- '/Users/emsanford/Dropbox (Personal)/Eric/Penn/raj_lab/code/rajlabseqtools/default/LocalComputerScripts/geneSymbolConversionTables/hg19_EnsgHgncSymbolMapping.tsv'
-outputFile            <- '/Users/emsanford/Dropbox (RajLab)/Shared_Eric/Signal_Integration/Analysis_SI2-SI4/extractedData/si2-si4_RNA-seq-pipeline-output.tsv'
+meltedDataInputFile   <- '/Users/emsanford/Dropbox (RajLab)/Shared_Eric/Signal_Integration/Analysis_SI2-SI4/extractedData/SI3_5sample_rerun_meltedData.tsv'
+gtfFileUsedByPipeline <- '/Users/emsanford/Dropbox (RajLab)/Shared_Eric/Signal_Integration/Analysis_SI2-SI4/refs/hg38.gtf'
+gtfFileDirectory      <- '/Users/emsanford/Dropbox (RajLab)/Shared_Eric/Signal_Integration/Analysis_SI2-SI4/refs'
+ENSGtoGeneSymbolTable <- '/Users/emsanford/Dropbox (Personal)/Eric/Penn/raj_lab/code/rajlabseqtools/default/LocalComputerScripts/geneSymbolConversionTables/hg38_EnsgHgncSymbolMapping.tsv'
+outputFile            <- '/Users/emsanford/Dropbox (RajLab)/Shared_Eric/Signal_Integration/Analysis_SI2-SI4/extractedData/SI3_5sample_rerun_RNA-seq-pipeline-output.tsv'
 
 ######### here endeth user-defined parameters ############
 
-# parse GTF file into an R object and use a union model to calculate gene lengths
+# parse GTF file into a first R object, used to retrieve gene names
+ens <- ensemblGenome()
+setwd(gtfFileDirectory)
+read.gtf(ens, "hg38.gtf")
+my_gene <- getGenePositions(ens)
+
+# parse GTF file into a second R object. Use this one to make a union model from which to calculate gene lengths
 txdb <- makeTxDbFromGFF(file = gtfFileUsedByPipeline, format="gtf")
 lengthsPergeneid <- sum(width(IRanges::reduce(exonsBy(txdb, by = "gene"))))
 lengthtbl <- tibble(gene_id = names(lengthsPergeneid), length = lengthsPergeneid)
@@ -36,6 +44,25 @@ HGNC.symbol.table <- read_tsv(ENSGtoGeneSymbolTable, col_names = T)
 HGNC.symbol.table <- HGNC.symbol.table %>% mutate(gene_id = ensg) %>% dplyr::select(-ensg)
 htseq.table.with.HGNCsymbol <- plyr::join(data.frame(htseq.table.withTPM), data.frame(HGNC.symbol.table), by = 'gene_id', type="left", match="first")  #uses plyr join on a data frame instead of dplyr left_join on a tibble due to first match option
 htseq.table.almostfinal <- as_tibble(htseq.table.with.HGNCsymbol)
+
+# now add the HGNC gene symbol to the final table and write the output file
+HGNC.symbol.table <- read_tsv(ENSGtoGeneSymbolTable, col_names = T)
+HGNC.symbol.table <- HGNC.symbol.table %>% mutate(gene_id = ensg) %>% dplyr::select(-ensg)
+htseq.table.with.HGNCsymbol <- plyr::join(data.frame(htseq.table.withTPM), data.frame(HGNC.symbol.table), by = 'gene_id', type="left", match="first")  #uses plyr join on a data frame instead of dplyr left_join on a tibble due to first match option
+htseq.table.almostfinal <- as_tibble(htseq.table.with.HGNCsymbol)
+
+# add hg38.gtf names to the genes that are missing hgnc symbols
+indices.genes.missing.hgnc.symbols <- which(is.na(htseq.table.almostfinal$hgnc_symbol))
+gene.ids.missing.symbols <- htseq.table.almostfinal$gene_id[indices.genes.missing.hgnc.symbols]
+temp.table1 <- data.frame(tibble(gene_id = gene.ids.missing.symbols))
+temp.table2 <- data.frame(tibble(gene_id = my_gene$gene_id, name = my_gene$gene_name))
+temp.table <- plyr::join(temp.table1, temp.table2, by = 'gene_id', type="left", match="first") 
+htseq.table.almostfinal$hgnc_symbol[indices.genes.missing.hgnc.symbols] <- temp.table$name
+stopifnot(sum(is.na(htseq.table.almostfinal$hgnc_symbol)) == 0)
+# rename HGNC column to "gene_name" column. Gene names are the HGNC symbol if one exists for the ensembl ID and the gene_name in the gtf file otherwise.
+htseq.table.almostfinal[["gene_name"]] <- htseq.table.almostfinal$hgnc_symbol
+htseq.table.almostfinal <- dplyr::select(htseq.table.almostfinal, -hgnc_symbol)
+
 htseq.table.final <- htseq.table.almostfinal %>% dplyr::select(-length, -totalMappedReads)
 write_tsv(htseq.table.final, outputFile, col_names = T)
 
