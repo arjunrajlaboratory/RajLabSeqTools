@@ -11,8 +11,8 @@ module load ngsutils-0.5.7
 module load STAR/2.7.1a
 module load python/2.7.9                               # Loading python 2 is necessary because attempting to run with python 3 will lead to import errors at the HTSeq step.
 STARFLAGS="--readFilesCommand zcat"
-genomeDirSTAR="/project/arjunrajlab/refs/STAR/hg38"    # This file contains an index used by the STAR aligner. You need to change the index if you're not using the hg38 reference genome.
-gtfFile="/project/arjunrajlab/refs/hg38/hg38.gtf"      # This reference file contains annotation information for hg38 genes. Change it to a different file for a different reference genome.
+genomeDirSTAR="/project/arjunrajlab/refs/STAR/hg38"    # This file contains an index used by the STAR aligner. Change the index if you're not using the hg38 reference genome. For hg19, use /home/apps/STAR/indexes/hg19
+gtfFile="/project/arjunrajlab/refs/hg38/hg38.gtf"      # This file contains transcript information for hg38 genes. Change it to a different file for a different reference genome. For hg19, use /project/arjunrajlab/resources/htseq/hg19/hg19.gtf
 #######################
 
 ## Update these variables below to your project name, experiment name, number of samples,
