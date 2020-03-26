@@ -15,7 +15,7 @@ sampleNames = list(set([i[0:laneRegex.search(i).span()[0]-1] for i in oldSampleD
 for sample in sampleNames:
 	if not os.path.isdir(sample):
 		os.makedirs(sample)
-	sampleLanes = glob.glob("{}*_L00*".format(sample))
+	sampleLanes = glob.glob("{}_*L00*".format(sample))
 	for i in sampleLanes:
 		for file in glob.glob("{}/*.fastq.gz".format(i)):
 			shutil.move(file, "{}/".format(sample))
